@@ -1,35 +1,35 @@
 
 #define N 5	//Número de filósofos
 
+bool ontable[N] = 1;
+
 inline pick_fork(s){
+	atomic{
+		ontable[s];
+		ontable[s] = 0
+	}
 }
 
 inline leave_fork(s){
+	ontable[s] = 1
 }
 
-active[N] proctype barbero(){
-	do						//ha de meterse en varios procesos, tantos como N
+active[N] proctype filosofo(){
+
+	int left = _pid;
+	int right = _pid + 1;
+
+	if
+		:: right >= N -> right = 0
+		:: else -> skip
+	fi
+
+	do						
 		::  printf("%d is thinking\n", _pid);
-
-		pick_fork("LEFT");	//hay que hacer un mutex pick_fork(i) para bloquear el recurso que se encuentre en i
-		pick_fork("RIGHT");
-
+		    pick_fork(left);	
+		    pick_fork(right);
 		cs: printf("%d is eating\n", _pid);
-
-		leave_fork("LEFT");	//hay que hacer un mutex pick_fork(i) para liberar el recurso en la posición i
-		leave_fork("RIGHT")
+		    leave_fork(left);	
+		    leave_fork(right)
 	od
-	}
-
-init{
-	int i = 0;
-	bool ontable[N];
-	do						//bucle inicializador del array
-		::i < N -> ontable[i] = 1; i++	
-		::i >= N -> break;
-	od 
-
-	//creación de los distintos procesos (un proceso por filósofo), cada proceso contendrá el bucle del do 
-
-	
 }
